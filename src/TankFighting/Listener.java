@@ -1,11 +1,14 @@
 package TankFighting;
 
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.*;
 import java.util.Vector;
 
 import javax.swing.JPanel;
+
+import TankFighting.EnemyTank.Hero;
 
 public class Listener implements ActionListener {
 	//constructors
@@ -33,6 +36,7 @@ public class Listener implements ActionListener {
 				dout.writeInt(hero.getX());
 				dout.writeInt(hero.getY());
 				//enemy
+				dout.writeInt(ets.size());
 				
 				for (int i = 0; i < ets.size(); i++) {
 						//dout.writeBoolean(ets.get(i).isLive);
@@ -59,14 +63,20 @@ public class Listener implements ActionListener {
 				hero.y=din.readInt();
 				
 				//enemy
-				
-				for (EnemyTank enemyTank : ets) {
-					//期间死了的话
-					
-					//enemyTank.isLive=true;
-					enemyTank.setX(din.readInt());
-					enemyTank.setY(din.readInt());
+				int ets_size=din.readInt();
+				for (int i = 0; i < ets.size(); i++) {
+					ets.get(i).setX(din.readInt());
+					ets.get(i).setY(din.readInt());
 				}
+				if (ets_size>ets.size()) {
+					for (int i = 0; i < ets_size-ets.size(); i++) {
+						EnemyTank enemyTank=new EnemyTank(din.readInt(), din.readInt());
+						enemyTank.setColor(1);
+						ets.add(enemyTank);
+					}
+					
+				}
+				System.out.println("size读档成功："+(ets_size==ets.size()));
 				
 				System.out.println("读档成功"+hero.x+" "+hero.y);
 			} catch (IOException e1) {

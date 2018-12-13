@@ -17,6 +17,8 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+import TankFighting.EnemyTank.Hero;
+
 
 public class TankGame extends JFrame {
 
@@ -77,10 +79,12 @@ class MyPanel extends JPanel implements KeyListener, Runnable {
             EnemyTank et = new EnemyTank((i + 1) * 80, 0);
             et.setColor(1);
             et.setDirect(1);
-            // 启动敌人的坦克
-            Thread t = new Thread(et);
-            t.start();
-
+//12.13修改
+//            // 启动敌人的坦克
+//            Thread t = new Thread(et);
+//            t.start();
+            
+            
             // 给敌人添加子弹
             Shot s = new Shot(et.x + 9, et.y + 28, 1);
             // 加入给敌人坦克
@@ -90,6 +94,9 @@ class MyPanel extends JPanel implements KeyListener, Runnable {
 
             ets.add(et);
         }
+       // 启动敌人的坦克
+        Thread  t =new Thread(new EnemyTank_Thread(ets));
+        t.start();
         //设置主布局方式
         setLayout(new BorderLayout());
         // 初始化图片
